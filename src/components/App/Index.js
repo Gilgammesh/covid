@@ -7,7 +7,7 @@ import Routes from "../../routes/Index";
 
 // Link del Servidor
 const httpLink = {
-  uri: process.env.REACT_APP_GRAPHQL || "http://localhost:4000/graphql"
+  uri: process.env.REACT_APP_API_COVID || "http://localhost:4000/graphql"
 };
 
 // Cliente de Apollo
