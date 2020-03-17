@@ -1,6 +1,6 @@
 # API - Coronavirus Información
 
-![coronavirus](https://github.com/Gilgammesh/covid/blob/master/public/img/bg.jpg)
+![coronavirus](https://github.com/Gilgammesh/covid/blob/master/public/img/bg.png)
 
 Un aplicación hecha en React para visualizar la información del coronavirus a nivel mundial con casos 
 globales, así como detallado por los diferentes paises, visualizando un mapa y estadística.
