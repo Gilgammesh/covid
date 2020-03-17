@@ -1,9 +1,9 @@
-# API - Coronavirus Información
+# Tablero de Información de Coronavirus
 
 ![coronavirus](https://github.com/Gilgammesh/covid/blob/master/public/img/bg.png)
 
 Un aplicación hecha en React para visualizar la información del coronavirus a nivel mundial con casos 
-globales, así como detallado por los diferentes paises, visualizando un mapa y estadística.
+globales, así como detallado por los diferentes paises: casos totales, muertes, recuperados, casos activos y casos críticos. Mediante un mapa podremos navegar por las diferentes paises. La aplicación se actualiza desde fuentes oficiales de información, garantizando la veracidad de los datos.
 
 ## Tecnologías
 
