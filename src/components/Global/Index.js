@@ -6,6 +6,7 @@ import { useQuery } from "react-apollo";
 import { GET_PAISES } from "./Querys";
 import { Lottie } from "@crello/react-lottie";
 import animationData from "../../assets/animations/covid.json";
+import './style.css'
 import Header from "../Header/Index";
 import Tablero from "./Tablero";
 import Tabla from "./Tabla";

@@ -16,13 +16,11 @@ import {
 import infectados from "../../assets/img/infectados.png";
 import muertes from "../../assets/img/muertes.png";
 import recuperados from "../../assets/img/recuperados.png";
+import noFlag from "../../assets/img/no-flag.png";
 
 const useStyles = makeStyles(theme => ({
   paperInfo: {
-    height: "930px",
-    [theme.breakpoints.down("sm")]: {
-      height: "auto"
-    }
+    height: "auto"
   },
   containerPais: {
     padding: theme.spacing(2),
@@ -49,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     marginTop: "20px",
     [theme.breakpoints.down("sm")]: {
-      hmarginTop: "10px"
+      marginTop: "10px"
     }
   },
   typoTittlePais: {
@@ -132,22 +130,11 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "40px",
     maxHeight: "40px"
   },
-  paperCardLeft: {
-    background: grey[50],
-    border: "1px solid #bdbdbd",
-    marginRight: theme.spacing(1),
-    [theme.breakpoints.down("sm")]: {
-      marginRight: theme.spacing(0)
-    }
+  paperCard1: {
+    border: "1px solid #bdbdbd"
   },
-  paperCardRight: {
-    background: grey[50],
-    border: "1px solid #bdbdbd",
-    marginLeft: theme.spacing(1),
-    [theme.breakpoints.down("sm")]: {
-      marginTop: "10px",
-      marginLeft: theme.spacing(0)
-    }
+  paperCard2: {
+    border: "1px solid #bdbdbd"
   },
   typoCardTittle: {
     background: grey[100],
@@ -180,6 +167,11 @@ const useStyles = makeStyles(theme => ({
       width: "320px"
     },
     display: "inline-block"
+  },
+  containerPie: {
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    paddingBottom: "10px"
   }
 }));
 
@@ -232,8 +224,93 @@ const Tablero = params => {
     return `${point.valueText} (${point.percentText})`;
   };
 
+  let bandera;
+  if (getPais.bandera) {
+    bandera = (
+      <>
+        <DesktopLg>
+          <ReactCountryFlag
+            countryCode={getPais.bandera}
+            style={{
+              width: "4em",
+              height: "4em",
+              marginRight: "30px"
+            }}
+            svg
+          />
+        </DesktopLg>
+        <Desktop>
+          <ReactCountryFlag
+            countryCode={getPais.bandera}
+            style={{
+              width: "3em",
+              height: "3em",
+              marginRight: "30px"
+            }}
+            svg
+          />
+        </Desktop>
+        <Tablet>
+          <ReactCountryFlag
+            countryCode={getPais.bandera}
+            style={{
+              width: "3em",
+              height: "3em",
+              marginRight: "20px"
+            }}
+            svg
+          />
+        </Tablet>
+        <Mobile>
+          <ReactCountryFlag
+            countryCode={getPais.bandera}
+            style={{
+              width: "2em",
+              height: "2em",
+              marginRight: "10px"
+            }}
+            svg
+          />
+        </Mobile>
+      </>
+    );
+  } else {
+    bandera = (
+      <>
+        <DesktopLg>
+          <img
+            style={{ maxWidth: "54px", marginRight: "10px" }}
+            src={noFlag}
+            alt=""
+          />
+        </DesktopLg>
+        <Desktop>
+          <img
+            style={{ maxWidth: "42px", marginRight: "10px" }}
+            src={noFlag}
+            alt=""
+          />
+        </Desktop>
+        <Tablet>
+          <img
+            style={{ maxWidth: "36px", marginRight: "10px" }}
+            src={noFlag}
+            alt=""
+          />
+        </Tablet>
+        <Mobile>
+          <img
+            style={{ maxWidth: "28px", marginRight: "10px" }}
+            src={noFlag}
+            alt=""
+          />
+        </Mobile>
+      </>
+    );
+  }
+
   return (
-    <Grid item xs={12} sm={6} md={8} lg={6} xl={6}>
+    <Grid item xs={12} sm={12} md={8} lg={6} xl={6}>
       <Paper className={classes.paperInfo} elevation={3}>
         <Grid
           container
@@ -242,50 +319,7 @@ const Tablero = params => {
           alignItems="center"
           className={classes.containerPais}
         >
-          <DesktopLg>
-            <ReactCountryFlag
-              countryCode={getPais.bandera}
-              style={{
-                width: "4em",
-                height: "4em",
-                marginRight: "30px"
-              }}
-              svg
-            />
-          </DesktopLg>
-          <Desktop>
-            <ReactCountryFlag
-              countryCode={getPais.bandera}
-              style={{
-                width: "3em",
-                height: "3em",
-                marginRight: "30px"
-              }}
-              svg
-            />
-          </Desktop>
-          <Tablet>
-            <ReactCountryFlag
-              countryCode={getPais.bandera}
-              style={{
-                width: "3em",
-                height: "3em",
-                marginRight: "20px"
-              }}
-              svg
-            />
-          </Tablet>
-          <Mobile>
-            <ReactCountryFlag
-              countryCode={getPais.bandera}
-              style={{
-                width: "2em",
-                height: "2em",
-                marginRight: "10px"
-              }}
-              svg
-            />
-          </Mobile>
+          {bandera}
           <Typography
             variant="h3"
             align="center"
@@ -408,9 +442,15 @@ const Tablero = params => {
             </Grid>
           )}
         </Grid>
-        <Grid container direction="row" className={classes.containerCards}>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-            <Paper className={classes.paperCardLeft} elevation={2}>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          className={classes.containerCards}
+        >
+          <Grid item xs={12} sm={10} md={10}>
+            <Paper className={classes.paperCard1} elevation={2}>
               <Typography
                 variant="h5"
                 align="center"
@@ -437,30 +477,40 @@ const Tablero = params => {
               >
                 Pacientes actualmente infectados
               </Typography>
-              <div>
+              <div className={classes.containerPie}>
                 <PieChart id="pie" palette="Material" dataSource={dataActives}>
+                  <Legend
+                    orientation="horizontal"
+                    itemTextPosition="right"
+                    horizontalAlignment="center"
+                    verticalAlignment="top"
+                  />
                   <Series argumentField="region" valueField="val">
                     <Label
                       visible={true}
+                      position="columns"
                       format="fixedPoint"
                       customizeText={customizeLabel}
-                      backgroundColor="#0F202D"
+                      backgroundColor="#123039"
                     >
+                      <Font size={16} />
                       <Connector visible={true} width={1} />
                     </Label>
-                    <Font size={16} />
                   </Series>
-                  <Legend
-                    horizontalAlignment="center"
-                    verticalAlignment="top"
-                    itemTextPosition="right"
-                  />
                 </PieChart>
               </div>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-            <Paper className={classes.paperCardRight} elevation={2}>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          className={classes.containerCards}
+        >
+          <Grid item xs={12} sm={10} md={10}>
+            <Paper className={classes.paperCard2} elevation={2}>
               <Typography
                 variant="h5"
                 align="center"
@@ -487,24 +537,26 @@ const Tablero = params => {
               >
                 Casos con un resultado
               </Typography>
-              <div>
+              <div className={classes.containerPie}>
                 <PieChart id="pie" palette="Bright" dataSource={dataClosed}>
+                  <Legend
+                    orientation="horizontal"
+                    itemTextPosition="right"
+                    horizontalAlignment="center"
+                    verticalAlignment="top"
+                  />
                   <Series argumentField="region" valueField="val">
                     <Label
                       visible={true}
+                      position="columns"
                       format="fixedPoint"
                       customizeText={customizeLabel}
-                      backgroundColor="#0F202D"
+                      backgroundColor="#123039"
                     >
+                      <Font size={16} />
                       <Connector visible={true} width={1} />
                     </Label>
-                    <Font size={16} />
                   </Series>
-                  <Legend
-                    horizontalAlignment="center"
-                    verticalAlignment="top"
-                    itemTextPosition="right"
-                  />
                 </PieChart>
               </div>
             </Paper>

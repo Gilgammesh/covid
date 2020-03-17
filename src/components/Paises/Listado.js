@@ -39,6 +39,9 @@ const useStyles = makeStyles(theme => ({
   totalNumber: {
     color: "#2ea09c",
     fontWeight: "700",
+    [theme.breakpoints.down("xl")]: {
+      fontSize: "42px"
+    },
     [theme.breakpoints.down("lg")]: {
       fontSize: "40px"
     },
@@ -51,9 +54,9 @@ const useStyles = makeStyles(theme => ({
   },
   list: {
     overflow: "auto",
-    height: "730px",
-    [theme.breakpoints.down("lg")]: {
-      height: "758px"
+    height: "550px",
+    [theme.breakpoints.down("sm")]: {
+      height: "400px"
     },
     [theme.breakpoints.down("xs")]: {
       height: "250px"
@@ -163,7 +166,7 @@ const Listado = params => {
   });
 
   return (
-    <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+    <Grid item xs={12} sm={12} md={4} lg={2} xl={2}>
       <Grid className={classes.gridTotal} item xs={12}>
         <Paper className={classes.paperTitle} elevation={3}>
           <Typography

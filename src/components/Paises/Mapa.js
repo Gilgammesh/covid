@@ -8,7 +8,7 @@ import marker from "../../assets/img/marker.png";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    height: "930px",
+    height: "730px",
     [theme.breakpoints.down("sm")]: {
       height: "600px",
       marginBottom: "10px"
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     width: "100%",
     margin: "0 auto",
-    height: "884px",
+    height: "680px",
     [theme.breakpoints.down("sm")]: {
       height: "554px"
     },
@@ -47,8 +47,14 @@ const Mapa = params => {
 
   const classes = useStyles();
 
-  const url =
-    "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png";
+  // Stadias maps free en desarrollo, en produccion es pagada
+  /*const url =
+    "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png";*/
+
+  // Libreria de mapas gratuita
+  const url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  const attribution =
+    "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a>";
 
   const position = [getPais.latitud, getPais.longitud];
   const zoom = 6;
@@ -72,15 +78,29 @@ const Mapa = params => {
           icon={iconMarker}
         >
           <Popup>
-            <h2 style={{ color: "#236d69", fontWeight: "700" }}>{ele.pais}</h2>
-            <h4 style={{ color: "#757575" }}>
-              <NumberFormat
-                value={ele.casos}
-                displayType={"text"}
-                thousandSeparator={true}
-              />&nbsp;&nbsp;
-              {desc}
-            </h4>
+            <div style={{ borderBottom: "1px solid white" }}>
+              <h2
+                style={{
+                  color: "rgb(46, 160, 156)",
+                  fontWeight: "700"
+                }}
+              >
+                {ele.pais}
+              </h2>
+            </div>
+            <div>
+              <label
+                style={{ color: "white", fontWeight: "600", fontSize: "20px" }}
+              >
+                <NumberFormat
+                  value={ele.casos}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                />
+              </label>
+              &nbsp;&nbsp;
+              <label style={{ color: "whitesmoke" }}>{desc}</label>
+            </div>
           </Popup>
         </Marker>
       );
@@ -96,7 +116,7 @@ const Mapa = params => {
         </Typography>
         <div className={classes.container}>
           <Map className={classes.map} center={position} zoom={zoom}>
-            <TileLayer url={url} />
+            <TileLayer url={url} attribution={attribution} />
             {markers}
           </Map>
         </div>

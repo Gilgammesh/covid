@@ -1,0 +1,10 @@
+#pie g.dxc-legend g.dxc-item text {
+  fill: #333;
+  font-size: 22px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+}
+
+.leaflet-popup-content-wrapper {
+  background: linear-gradient(180deg, #0F202C 30%, #247573 100%);
+}
