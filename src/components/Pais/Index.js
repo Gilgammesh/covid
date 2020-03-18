@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import { teal } from "@material-ui/core/colors";
 import { useQuery } from "react-apollo";
-import { GET_PAISES } from "./Querys";
+import { GET_PERU } from "./Querys";
 import { Lottie } from "@crello/react-lottie";
 import animationData from "../../assets/animations/covid.json";
 import "./style.css";
 import Header from "../Header/Index";
-import Listado from "./Listado";
-import Contenido from "./Contenido";
+import Tablero from "./Tablero";
+import Mapa from "./Mapa";
+import Hospitales from "./Hospitales";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,15 +48,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Index = () => {
-  const [state, setState] = useState({
-    pais: "China"
-  });
-
   const classes = useStyles();
 
-  const { loading, data } = useQuery(GET_PAISES, {
+  const { loading, data } = useQuery(GET_PERU, {
     variables: {
-      sortby: [
+      filter: {
+        pais: "Peru"
+      },
+      sortby1: [
         {
           field: "casos",
           direction: "DESC"
@@ -63,6 +63,16 @@ const Index = () => {
         {
           field: "pais",
           direction: "ASC"
+        }
+      ],
+      sortby2: [
+        {
+          field: "casos",
+          direction: "ASC"
+        },
+        {
+          field: "ciudad",
+          direction: "DESC"
         }
       ]
     }
@@ -92,15 +102,20 @@ const Index = () => {
     );
   }
 
-  const { getPaises } = data;
+  const { getPaises, getPais, getCiudades } = data;
 
   return (
     <div className={classes.root}>
       <Header />
       <div className={classes.container}>
         <Grid container className={classes.grid} spacing={2}>
-          <Listado state={state} setState={setState} getPaises={getPaises} />
-          <Contenido state={state} getPaises={getPaises} />
+          <Tablero
+            getPaises={getPaises}
+            getPais={getPais}
+            getCiudades={getCiudades}
+          />
+          <Mapa getPais={getPais} getCiudades={getCiudades} />
+          <Hospitales />
         </Grid>
       </div>
     </div>

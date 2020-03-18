@@ -6,16 +6,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper, Typography, Divider } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import {
+  Chart,
+  SeriesTemplate,
+  CommonSeriesSettings,
+  Title,
   Legend,
-  Series,
-  Font,
-  Label,
-  PieChart,
-  Connector
-} from "devextreme-react/pie-chart";
+  Label
+} from "devextreme-react/chart";
 import infectados from "../../assets/img/infectados.png";
 import muertes from "../../assets/img/muertes.png";
 import recuperados from "../../assets/img/recuperados.png";
+import descartados from "../../assets/img/descartar.png";
 import noFlag from "../../assets/img/no-flag.png";
 
 const useStyles = makeStyles(theme => ({
@@ -44,11 +45,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   containerCards: {
-    padding: theme.spacing(2),
-    marginTop: "20px",
-    [theme.breakpoints.down("sm")]: {
-      marginTop: "10px"
-    }
+    padding: theme.spacing(2)
   },
   typoTittlePais: {
     color: "whitesmoke",
@@ -61,6 +58,32 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.down("xs")]: {
       fontSize: "28px"
+    }
+  },
+  typoTittleRanking: {
+    color: "whitesmoke",
+    fontWeight: "400",
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "32px"
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "28px"
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "22px"
+    }
+  },
+  typoTittleRanking_: {
+    color: "#2ea09c",
+    fontWeight: "500",
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "32px"
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "28px"
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "22px"
     }
   },
   typoTittleCasos: {
@@ -100,6 +123,16 @@ const useStyles = makeStyles(theme => ({
       fontSize: "26px"
     }
   },
+  typoDescartados: {
+    color: "orange",
+    fontWeight: "500",
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "28px"
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "26px"
+    }
+  },
   typoCasosHoy: {
     color: "white",
     fontWeight: "500",
@@ -130,10 +163,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "40px",
     maxHeight: "40px"
   },
-  paperCard1: {
-    border: "1px solid #bdbdbd"
-  },
-  paperCard2: {
+  paperCard: {
     border: "1px solid #bdbdbd"
   },
   typoCardTittle: {
@@ -148,9 +178,36 @@ const useStyles = makeStyles(theme => ({
     color: "#0F202C",
     fontWeight: "500"
   },
+  typoCardNumberLeves: {
+    paddingTop: "15px",
+    paddingBottom: "5px",
+    color: "#36B2F5",
+    fontWeight: "400"
+  },
+  typoCardNumberCriticos: {
+    paddingTop: "15px",
+    paddingBottom: "5px",
+    color: "orangered",
+    fontWeight: "400"
+  },
+  typoCardNumberRecuperados: {
+    paddingTop: "15px",
+    paddingBottom: "5px",
+    color: "#70A802",
+    fontWeight: "400"
+  },
+  typoCardNumberMuertes: {
+    paddingTop: "15px",
+    paddingBottom: "5px",
+    color: "#d50000",
+    fontWeight: "400"
+  },
   typoCardDescription: {
     paddingBottom: "5px",
     color: grey[700]
+  },
+  containerChart: {
+    padding: theme.spacing(2)
   },
   container_: {
     textAlign: "center"
@@ -167,16 +224,11 @@ const useStyles = makeStyles(theme => ({
       width: "320px"
     },
     display: "inline-block"
-  },
-  containerPie: {
-    paddingLeft: "10px",
-    paddingRight: "10px",
-    paddingBottom: "10px"
   }
 }));
 
 const Tablero = params => {
-  const { getPais } = params;
+  const { getPaises, getPais, getCiudades } = params;
 
   const classes = useStyles();
 
@@ -188,6 +240,15 @@ const Tablero = params => {
     <Responsive {...props} minWidth={768} maxWidth={991} />
   );
   const Mobile = props => <Responsive {...props} maxWidth={767} />;
+
+  let ranking = 0;
+  getPaises.map((ele, index) => {
+    if (ele.pais === "Peru") {
+      ranking = index;
+    }
+    return null;
+  });
+  const total = getPaises.length;
 
   let isCasosHoy;
   let isMuertesHoy;
@@ -209,20 +270,6 @@ const Tablero = params => {
   } else {
     isMuertesHoy = true;
   }
-
-  const dataActives = [
-    { region: "Leves", val: getPais.casosActivos - getPais.casosCriticos },
-    { region: "Criticos", val: getPais.casosCriticos }
-  ];
-
-  const dataClosed = [
-    { region: "Recuperados", val: getPais.recuperados },
-    { region: "Muertes", val: getPais.muertes }
-  ];
-
-  const customizeLabel = point => {
-    return `${point.valueText} (${point.percentText})`;
-  };
 
   let bandera;
   if (getPais.bandera) {
@@ -308,37 +355,67 @@ const Tablero = params => {
       </>
     );
   }
-
   return (
-    <Grid item xs={12} sm={12} md={8} lg={6} xl={6}>
+    <Grid item xs={12} sm={12} md={7} lg={7} xl={7}>
       <Paper className={classes.paperInfo} elevation={3}>
         <Grid
           container
           direction="row"
-          justify="flex-start"
-          alignItems="center"
+          justify="space-between"
+          alignItems="flex-end"
           className={classes.containerPais}
         >
-          {bandera}
-          <Typography
-            variant="h3"
-            align="center"
-            className={classes.typoTittlePais}
-          >
-            {getPais.pais}
-          </Typography>
+          <Grid item xs={5}>
+            <Grid
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="center"
+            >
+              {bandera}
+              <Typography
+                variant="h3"
+                align="center"
+                className={classes.typoTittlePais}
+              >
+                {getPais.pais}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item xs={7}>
+            <Grid
+              container
+              direction="row"
+              justify="flex-end"
+              alignItems="center"
+            >
+              <Typography
+                variant="h4"
+                align="center"
+                className={classes.typoTittleRanking}
+              >
+                Ranking :&nbsp;&nbsp;
+              </Typography>
+              <Typography
+                variant="h4"
+                align="center"
+                className={classes.typoTittleRanking_}
+              >
+                {ranking} de {total - 1}
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
         <Divider />
         <Grid container direction="row" className={classes.containerCasos}>
-          <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+          <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
             <img className={classes.img} src={infectados} alt="casos" />
             <Typography
               variant="h5"
               align="center"
               className={classes.typoTittleCasos}
             >
-              Caso{getPais.muertes + getPais.recuperados > 1 && "s"} Confirmado
-              {getPais.muertes + getPais.recuperados > 1 && "s"}
+              Casos Confirmados
             </Typography>
             <Typography
               variant="h4"
@@ -352,7 +429,7 @@ const Tablero = params => {
               />
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+          <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
             <img className={classes.img} src={muertes} alt="muertes" />
             <Typography
               variant="h5"
@@ -373,7 +450,7 @@ const Tablero = params => {
               />
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+          <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
             <img className={classes.img} src={recuperados} alt="recuperados" />
             <Typography
               variant="h5"
@@ -389,6 +466,27 @@ const Tablero = params => {
             >
               <NumberFormat
                 value={getPais.recuperados}
+                displayType={"text"}
+                thousandSeparator={true}
+              />
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
+            <img className={classes.img} src={descartados} alt="descartados" />
+            <Typography
+              variant="h5"
+              align="center"
+              className={classes.typoTittleCasos}
+            >
+              Casos Descartados
+            </Typography>
+            <Typography
+              variant="h4"
+              align="center"
+              className={classes.typoDescartados}
+            >
+              <NumberFormat
+                value={getPais.casosDescartados}
                 displayType={"text"}
                 thousandSeparator={true}
               />
@@ -449,9 +547,10 @@ const Tablero = params => {
           justify="center"
           alignItems="center"
           className={classes.containerCards}
+          spacing={3}
         >
-          <Grid item xs={12} sm={10} md={10}>
-            <Paper className={classes.paperCard1} elevation={2}>
+          <Grid item xs={12} sm={10} md={6}>
+            <Paper className={classes.paperCard} elevation={2}>
               <Typography
                 variant="h5"
                 align="center"
@@ -478,40 +577,78 @@ const Tablero = params => {
               >
                 Pacientes actualmente infectados
               </Typography>
-              <div className={classes.containerPie}>
-                <PieChart id="pie" palette="Material" dataSource={dataActives}>
-                  <Legend
-                    orientation="horizontal"
-                    itemTextPosition="right"
-                    horizontalAlignment="center"
-                    verticalAlignment="top"
-                  />
-                  <Series argumentField="region" valueField="val">
-                    <Label
-                      visible={true}
-                      position="columns"
-                      format="fixedPoint"
-                      customizeText={customizeLabel}
-                      backgroundColor="#123039"
-                    >
-                      <Font size={16} />
-                      <Connector visible={true} width={1} />
-                    </Label>
-                  </Series>
-                </PieChart>
-              </div>
+              <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item xs={12} sm={10} md={6}>
+                  <Typography
+                    variant="h5"
+                    align="center"
+                    className={classes.typoCardNumberLeves}
+                  >
+                    <NumberFormat
+                      value={getPais.casosActivos - getPais.casosCriticos}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                    />
+                    <NumberFormat
+                      value={
+                        ((getPais.casosActivos - getPais.casosCriticos) * 100) /
+                        getPais.casosActivos
+                      }
+                      displayType={"text"}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      prefix={" ("}
+                      suffix={"%)"}
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.typoCardDescription}
+                  >
+                    Leves
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={10} md={6}>
+                  <Typography
+                    variant="h5"
+                    align="center"
+                    className={classes.typoCardNumberCriticos}
+                  >
+                    <NumberFormat
+                      value={getPais.casosCriticos}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                    />
+                    <NumberFormat
+                      value={
+                        (getPais.casosCriticos * 100) / getPais.casosActivos
+                      }
+                      displayType={"text"}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      prefix={" ("}
+                      suffix={"%)"}
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.typoCardDescription}
+                  >
+                    Críticos
+                  </Typography>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
-        </Grid>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          className={classes.containerCards}
-        >
-          <Grid item xs={12} sm={10} md={10}>
-            <Paper className={classes.paperCard2} elevation={2}>
+          <Grid item xs={12} sm={10} md={6}>
+            <Paper className={classes.paperCard} elevation={2}>
               <Typography
                 variant="h5"
                 align="center"
@@ -536,32 +673,101 @@ const Tablero = params => {
                 align="center"
                 className={classes.typoCardDescription}
               >
-                Casos con un resultado
+                Caso{getPais.muertes + getPais.recuperados > 1 && "s"} con un
+                resultado
               </Typography>
-              <div className={classes.containerPie}>
-                <PieChart id="pie" palette="Bright" dataSource={dataClosed}>
-                  <Legend
-                    orientation="horizontal"
-                    itemTextPosition="right"
-                    horizontalAlignment="center"
-                    verticalAlignment="top"
-                  />
-                  <Series argumentField="region" valueField="val">
-                    <Label
-                      visible={true}
-                      position="columns"
-                      format="fixedPoint"
-                      customizeText={customizeLabel}
-                      backgroundColor="#123039"
-                    >
-                      <Font size={16} />
-                      <Connector visible={true} width={1} />
-                    </Label>
-                  </Series>
-                </PieChart>
-              </div>
+              <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item xs={12} sm={10} md={6}>
+                  <Typography
+                    variant="h5"
+                    align="center"
+                    className={classes.typoCardNumberRecuperados}
+                  >
+                    <NumberFormat
+                      value={getPais.recuperados}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                    />
+                    <NumberFormat
+                      value={
+                        (getPais.recuperados * 100) /
+                        (getPais.muertes + getPais.recuperados)
+                      }
+                      displayType={"text"}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      prefix={" ("}
+                      suffix={"%)"}
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.typoCardDescription}
+                  >
+                    Recuperados
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={10} md={6}>
+                  <Typography
+                    variant="h5"
+                    align="center"
+                    className={classes.typoCardNumberMuertes}
+                  >
+                    <NumberFormat
+                      value={getPais.muertes}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                    />
+                    <NumberFormat
+                      value={
+                        (getPais.muertes * 100) /
+                        (getPais.muertes + getPais.recuperados)
+                      }
+                      displayType={"text"}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      prefix={" ("}
+                      suffix={"%)"}
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.typoCardDescription}
+                  >
+                    Muertes
+                  </Typography>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
+        </Grid>
+        <Grid item xs={12} className={classes.containerChart}>
+          <Chart
+            id="chart"
+            palette="Bright"
+            rotated={true}
+            dataSource={getCiudades}
+            barGroupWidth={26}
+          >
+            <CommonSeriesSettings
+              argumentField="ciudad"
+              valueField="casos"
+              type="bar"
+              ignoreEmptyPoints={true}
+            >
+              <Label visible={true} backgroundColor="#123039" />
+            </CommonSeriesSettings>
+            <SeriesTemplate nameField="ciudad" />
+            <Legend visible={false} />
+            <Title text="Casos por Departamentos" />
+          </Chart>
         </Grid>
       </Paper>
     </Grid>

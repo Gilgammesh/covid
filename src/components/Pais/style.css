@@ -1,0 +1,20 @@
+#chart g.dxc-title text {
+  fill: #333;
+  font-size: 22px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+}
+
+#chart g.dxc-axes-group g.dxc-arg-axis g.dxc-arg-elements text {
+  fill: #333 !important;
+  font-size: 12px !important;
+}
+
+#chart g.dxc-axes-group g.dxc-val-axis g.dxc-val-elements text {
+  fill: #333 !important;
+  font-size: 12px !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: linear-gradient(180deg, #0F202C 30%, #247573 100%);
+}

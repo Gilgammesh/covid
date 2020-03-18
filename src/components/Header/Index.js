@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Responsive from "react-responsive";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Hidden, Button } from "@material-ui/core";
+import LocationCityIcon from "@material-ui/icons/LocationCity";
 import PublicIcon from "@material-ui/icons/Public";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import ExploreIcon from "@material-ui/icons/Explore";
@@ -11,9 +12,6 @@ import covid from "../../assets/img/covid.png";
 import empresa from "../../assets/img/empresa.png";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
   appBar: {
     background: "transparent"
   },
@@ -41,6 +39,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("sm")]: {
       marginRight: "5px"
     },
+    [theme.breakpoints.down("xs")]: {
+      marginRight: "2px"
+    },
     color: "#212121",
     backgroundColor: teal[100],
     "&:hover": {
@@ -52,6 +53,9 @@ const useStyles = makeStyles(theme => ({
     marginRight: "10px",
     [theme.breakpoints.down("sm")]: {
       marginRight: "5px"
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginRight: "2px"
     },
     color: "#9fcce0",
     backgroundColor: "#09141C",
@@ -76,7 +80,7 @@ const Index = () => {
   const menuActive = param => {
     if (pathname === param) {
       return classes.toolBarActiveBtn;
-    } else if (pathname === "/" && param === "/paises") {
+    } else if (pathname === "/" && param === "/pais") {
       return classes.toolBarActiveBtn;
     } else {
       return classes.toolBarBtn;
@@ -85,7 +89,7 @@ const Index = () => {
   const menuHref = param => {
     if (pathname === param) {
       return "#";
-    } else if (pathname === "/" && param === "/paises") {
+    } else if (pathname === "/" && param === "/pais") {
       return "#";
     } else {
       return param;
@@ -112,7 +116,11 @@ const Index = () => {
           </Typography>
         </Mobile>
         <Hidden smDown>
-          <img className={classes.imgEmpresa} src={empresa} alt="covid" />
+          <img
+            className={classes.imgEmpresa}
+            src={empresa}
+            alt="santandertech"
+          />
         </Hidden>
       </Toolbar>
       <Toolbar
@@ -120,6 +128,14 @@ const Index = () => {
         variant="dense"
         className={classes.toolbarSecondary}
       >
+        <Button
+          className={menuActive("/pais")}
+          variant="contained"
+          href={menuHref("/pais")}
+          startIcon={<LocationCityIcon />}
+        >
+          Pais
+        </Button>
         <Button
           className={menuActive("/paises")}
           variant="contained"

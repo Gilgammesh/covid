@@ -68,7 +68,7 @@ const Index = () => {
             <Button
               className={classes.btn}
               variant="contained"
-              href="/paises"
+              href="/pais"
               startIcon={<KeyboardReturnIcon />}
             >
               Regresar

@@ -8,14 +8,12 @@ import marker from "../../assets/img/marker.png";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    height: "730px",
+    height: "920px",
     [theme.breakpoints.down("sm")]: {
-      height: "600px",
-      marginBottom: "10px"
+      height: "780px"
     },
     [theme.breakpoints.down("xs")]: {
-      height: "500px",
-      marginBottom: "10px"
+      height: "600px"
     }
   },
   tittle: {
@@ -29,12 +27,12 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     width: "100%",
     margin: "0 auto",
-    height: "680px",
+    height: "870px",
     [theme.breakpoints.down("sm")]: {
-      height: "554px"
+      height: "730px"
     },
     [theme.breakpoints.down("xs")]: {
-      height: "454px"
+      height: "550px"
     }
   },
   map: {
@@ -43,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Mapa = params => {
-  const { getPais, getPaises } = params;
+  const { getPais, getCiudades } = params;
 
   const classes = useStyles();
 
@@ -52,13 +50,16 @@ const Mapa = params => {
     "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a>";
 
   const position = [getPais.latitud, getPais.longitud];
-  const zoom = 6;
+  let zoom = 6;
+  if (window.innerWidth < 768) {
+    zoom = 5;
+  }
   const iconMarker = new Icon({
     iconUrl: marker,
     iconSize: [30, 30]
   });
 
-  const markers = getPaises.map(ele => {
+  const markers = getCiudades.map(ele => {
     if (ele.latitud && ele.longitud) {
       let desc;
       if (ele.casos === 1) {
@@ -80,7 +81,7 @@ const Mapa = params => {
                   fontWeight: "700"
                 }}
               >
-                {ele.pais}
+                {ele.ciudad}
               </h2>
             </div>
             <div>
@@ -104,7 +105,7 @@ const Mapa = params => {
   });
 
   return (
-    <Grid item xs={12} sm={12} lg={4} xl={4}>
+    <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
       <Paper className={classes.paper} elevation={3}>
         <Typography className={classes.tittle} variant="h6" align="center">
           MAPA
