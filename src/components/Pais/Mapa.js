@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Mapa = params => {
-  const { getPais, getCiudades } = params;
+  const { getPais, getRegiones } = params;
 
   const classes = useStyles();
 
@@ -59,13 +59,23 @@ const Mapa = params => {
     iconSize: [30, 30]
   });
 
-  const markers = getCiudades.map(ele => {
+  const markers = getRegiones.map(ele => {
     if (ele.latitud && ele.longitud) {
-      let desc;
+      let descC, descM, descR;
       if (ele.casos === 1) {
-        desc = "caso confirmado";
+        descC = "caso confirmado";
       } else {
-        desc = "casos confirmados";
+        descC = "casos confirmados";
+      }
+      if (ele.muertes === 1) {
+        descM = "muerte";
+      } else {
+        descM = "muertes";
+      }
+      if (ele.recuperados <= 1) {
+        descR = "recuperado";
+      } else {
+        descR = "recuperados";
       }
       return (
         <Marker
@@ -74,19 +84,14 @@ const Mapa = params => {
           icon={iconMarker}
         >
           <Popup>
-            <div style={{ borderBottom: "1px solid white" }}>
-              <h2
-                style={{
-                  color: "rgb(46, 160, 156)",
-                  fontWeight: "700"
-                }}
-              >
-                {ele.ciudad}
+            <div>
+              <h2 style={{ color: "white", fontWeight: "700" }}>
+                {ele.region}
               </h2>
             </div>
-            <div>
+            <div style={{ borderTop: "1px solid white" }}>
               <label
-                style={{ color: "white", fontWeight: "600", fontSize: "20px" }}
+                style={{ color: "#2ea09c", fontWeight: "600", fontSize: "20px" }}
               >
                 <NumberFormat
                   value={ele.casos}
@@ -95,7 +100,37 @@ const Mapa = params => {
                 />
               </label>
               &nbsp;&nbsp;
-              <label style={{ color: "whitesmoke" }}>{desc}</label>
+              <label style={{ color: "#2ea09c", fontSize: "14px" }}>
+                {descC}
+              </label>
+            </div>
+            <div>
+              <label
+                style={{ color: "red", fontWeight: "600", fontSize: "20px" }}
+              >
+                <NumberFormat
+                  value={ele.muertes}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                />
+              </label>
+              &nbsp;&nbsp;
+              <label style={{ color: "red", fontSize: "14px" }}>{descM}</label>
+            </div>
+            <div>
+              <label
+                style={{ color: "green", fontWeight: "600", fontSize: "20px" }}
+              >
+                <NumberFormat
+                  value={ele.recuperados}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                />
+              </label>
+              &nbsp;&nbsp;
+              <label style={{ color: "green", fontSize: "14px" }}>
+                {descR}
+              </label>
             </div>
           </Popup>
         </Marker>

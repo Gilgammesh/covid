@@ -8,7 +8,7 @@ import marker from "../../assets/img/marker.png";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    height: "730px",
+    height: "750px",
     [theme.breakpoints.down("sm")]: {
       height: "600px",
       marginBottom: "10px"
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     width: "100%",
     margin: "0 auto",
-    height: "680px",
+    height: "700px",
     [theme.breakpoints.down("sm")]: {
       height: "554px"
     },

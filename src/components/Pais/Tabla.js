@@ -4,25 +4,28 @@ import { Grid, Paper } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 
 const useStyles = makeStyles(theme => ({
+  container: {
+    padding: theme.spacing(2)
+  },
   grid: {
     display: "flex",
     width: "100%",
     padding: theme.spacing(2)
   },
-  container: {
+  containerTable: {
     padding: theme.spacing(2)
   }
 }));
 
 const Tabla = params => {
-  const { getPaises } = params;
+  const { getRegiones } = params;
 
   const classes = useStyles();
 
   const columns = [
     {
-      label: "Pais",
-      name: "pais",
+      label: "Región",
+      name: "region",
       options: {
         filter: true,
         sort: true
@@ -37,24 +40,8 @@ const Tabla = params => {
       }
     },
     {
-      label: "Casos de Hoy",
-      name: "casosHoy",
-      options: {
-        filter: true,
-        sort: true
-      }
-    },
-    {
       label: "Total Muertes",
       name: "muertes",
-      options: {
-        filter: true,
-        sort: true
-      }
-    },
-    {
-      label: "Muertes de Hoy",
-      name: "muertesHoy",
       options: {
         filter: true,
         sort: true
@@ -67,22 +54,6 @@ const Tabla = params => {
         filter: true,
         sort: true
       }
-    },
-    {
-      label: "Casos Activos",
-      name: "casosActivos",
-      options: {
-        filter: true,
-        sort: true
-      }
-    },
-    {
-      label: "Casos Criticos",
-      name: "casosCriticos",
-      options: {
-        filter: true,
-        sort: true
-      }
     }
   ];
 
@@ -91,7 +62,7 @@ const Tabla = params => {
     responsive: "stacked",
     selectableRows: "none",
     downloadOptions: {
-      filename: "casos_coronavirus_paises.csv",
+      filename: "casos_coronavirus_regiones_peru.csv",
       separator: ","
     },
     textLabels: {
@@ -110,22 +81,20 @@ const Tabla = params => {
       },
       filter: {
         title: "FILTROS",
-        reset: "reiniciar",          
-      },
+        reset: "reiniciar"
+      }
     }
   };
 
   return (
-    <Grid item xs={12}>
-      <Paper elevation={3}>
-        <div className={classes.container}>
-          <MUIDataTable
-            title="Casos confirmados y muertes por Pais"
-            data={getPaises}
-            columns={columns}
-            options={options}
-          />
-        </div>
+    <Grid item xs={12} className={classes.container}>
+      <Paper elevation={1}>
+        <MUIDataTable
+          title="Casos en la Regiones del Perú"
+          data={getRegiones}
+          columns={columns}
+          options={options}
+        />
       </Paper>
     </Grid>
   );

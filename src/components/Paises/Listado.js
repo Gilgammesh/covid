@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NumberFormat from "react-number-format";
 import ReactCountryFlag from "react-country-flag";
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,8 +10,11 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider
+  Divider,
+  InputBase,
+  IconButton
 } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
 import noFlag from "../../assets/img/no-flag.png";
 
 const useStyles = makeStyles(theme => ({
@@ -52,6 +55,25 @@ const useStyles = makeStyles(theme => ({
       fontSize: "30px"
     }
   },
+  containerSearch: {
+    margin: theme.spacing(1)
+  },
+  search: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center"
+  },
+  inputSearch: {
+    marginLeft: theme.spacing(1),
+    flex: 1
+  },
+  iconButtonSearch: {
+    padding: 10
+  },
+  dividerSearch: {
+    height: 28,
+    margin: 4
+  },
   list: {
     overflow: "auto",
     height: "550px",
@@ -88,6 +110,8 @@ const useStyles = makeStyles(theme => ({
 const Listado = params => {
   const { state, setState, getPaises } = params;
 
+  const [list, setList] = useState(getPaises);
+
   const classes = useStyles();
 
   const primaryTypo = {
@@ -121,7 +145,7 @@ const Listado = params => {
     });
   };
 
-  const listPaises = getPaises.map((ele, index) => {
+  const listPaises = list.map((ele, index) => {
     let bandera;
     if (ele.bandera) {
       bandera = (
@@ -165,6 +189,23 @@ const Listado = params => {
     );
   });
 
+  const inputSearchChange = async evt => {
+    const { value } = evt.target;
+    const filter = await value
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+    setList(
+      getPaises.filter(ele => {
+        const eleFilter = ele.pais
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+        return eleFilter.includes(filter);
+      })
+    );
+  };
+
   return (
     <Grid item xs={12} sm={12} md={4} lg={2} xl={2}>
       <Grid className={classes.gridTotal} item xs={12}>
@@ -182,6 +223,9 @@ const Listado = params => {
             className={classes.totalNumber}
           >
             {getPaises.length - 1}
+          </Typography>
+          <Typography variant="body2" align="center">
+            + El Crucero Diamond Princess
           </Typography>
         </Paper>
       </Grid>
@@ -201,6 +245,23 @@ const Listado = params => {
           >
             Casos confirmados
           </Typography>
+          <Divider />
+          <div className={classes.containerSearch}>
+            <Paper className={classes.search} elevation={1}>
+              <InputBase
+                className={classes.inputSearch}
+                placeholder="Buscar pais"
+                onChange={inputSearchChange}
+              />
+              <Divider
+                className={classes.dividerSearch}
+                orientation="vertical"
+              />
+              <IconButton className={classes.iconButtonSearch}>
+                <SearchIcon />
+              </IconButton>
+            </Paper>
+          </div>
           <List className={classes.list} component="nav" dense={true}>
             {listPaises}
           </List>

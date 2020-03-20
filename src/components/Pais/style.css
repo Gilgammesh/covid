@@ -17,4 +17,5 @@
 
 .leaflet-popup-content-wrapper {
   background: linear-gradient(180deg, #0F202C 30%, #247573 100%);
+  background: linear-gradient(0deg, #0F202C 30%, #247573 100%);
 }

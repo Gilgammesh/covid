@@ -10,7 +10,6 @@ import "./style.css";
 import Header from "../Header/Index";
 import Tablero from "./Tablero";
 import Mapa from "./Mapa";
-import Hospitales from "./Hospitales";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -71,7 +70,7 @@ const Index = () => {
           direction: "ASC"
         },
         {
-          field: "ciudad",
+          field: "region",
           direction: "DESC"
         }
       ]
@@ -102,7 +101,7 @@ const Index = () => {
     );
   }
 
-  const { getPaises, getPais, getCiudades } = data;
+  const { getPaises, getPais, getRegiones } = data;
 
   return (
     <div className={classes.root}>
@@ -112,10 +111,9 @@ const Index = () => {
           <Tablero
             getPaises={getPaises}
             getPais={getPais}
-            getCiudades={getCiudades}
+            getRegiones={getRegiones}
           />
-          <Mapa getPais={getPais} getCiudades={getCiudades} />
-          <Hospitales />
+          <Mapa getPais={getPais} getRegiones={getRegiones} />
         </Grid>
       </div>
     </div>

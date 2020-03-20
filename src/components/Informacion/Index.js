@@ -8,6 +8,7 @@ import prevencion1 from "../../assets/img/prevencion1.jpg";
 import prevencion2 from "../../assets/img/prevencion2.jpg";
 import salud from "../../assets/img/salud.png";
 import Header from "../Header/Index";
+import Hospitales from "./Hospitales";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -117,10 +118,15 @@ const Index = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Typography>
+                  <Typography style={{ marginBottom: "6px" }}>
                     Los coronavirus (CoV) son una amplia familia de virus que
                     pueden causar diversas afecciones, desde el resfriado común,
                     hasta infecciones respiratorias graves.
+                  </Typography>
+                  <Typography>
+                    El nuevo coronavirus
+                    (COVID-19) es una cepa no identificada previamente en
+                    humanos.
                   </Typography>
                 </Grid>
               </Grid>
@@ -202,22 +208,22 @@ const Index = () => {
                 </Grid>
                 <Grid item xs={12} sm={5}>
                   <Typography variant="body1" style={{ marginBottom: "6px" }}>
-                    Fiebre Alta.
+                    +  Fiebre Alta.
                   </Typography>
                   <Typography variant="body1" style={{ marginBottom: "6px" }}>
-                    Escalofrios.
+                    +  Escalofrios.
                   </Typography>
                   <Typography variant="body1" style={{ marginBottom: "6px" }}>
-                    Estornudos.
+                    +  Estornudos.
                   </Typography>
                   <Typography variant="body1" style={{ marginBottom: "6px" }}>
-                    Tos.
+                    +  Tos.
                   </Typography>
                   <Typography variant="body1" style={{ marginBottom: "6px" }}>
-                    Dolor de Garganta.
+                    +  Dolor de Garganta.
                   </Typography>
                   <Typography variant="body1">
-                    Complicación al respirar.
+                    +  Complicación al respirar.
                   </Typography>
                 </Grid>
               </Grid>
@@ -352,6 +358,7 @@ const Index = () => {
               </Grid>
             </Paper>
           </Grid>
+          <Hospitales />
         </Grid>
       </div>
     </div>

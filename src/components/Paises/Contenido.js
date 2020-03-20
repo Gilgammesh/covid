@@ -72,7 +72,7 @@ const Contenido = params => {
 
   return (
     <>
-      <Tablero getPais={getPais} />
+      <Tablero getPais={getPais} getPaises={getPaises} />
       <Mapa getPais={getPais} getPaises={getPaises} />
     </>
   );

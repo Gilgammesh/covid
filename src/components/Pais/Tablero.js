@@ -13,6 +13,7 @@ import {
   Legend,
   Label
 } from "devextreme-react/chart";
+import Tabla from "./Tabla";
 import infectados from "../../assets/img/infectados.png";
 import muertes from "../../assets/img/muertes.png";
 import recuperados from "../../assets/img/recuperados.png";
@@ -20,9 +21,6 @@ import descartados from "../../assets/img/descartar.png";
 import noFlag from "../../assets/img/no-flag.png";
 
 const useStyles = makeStyles(theme => ({
-  paperInfo: {
-    height: "auto"
-  },
   containerPais: {
     padding: theme.spacing(2),
     borderTopLeftRadius: "4px",
@@ -228,7 +226,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Tablero = params => {
-  const { getPaises, getPais, getCiudades } = params;
+  const { getPaises, getPais, getRegiones } = params;
 
   const classes = useStyles();
 
@@ -244,7 +242,7 @@ const Tablero = params => {
   let ranking = 0;
   getPaises.map((ele, index) => {
     if (ele.pais === "Peru") {
-      ranking = index;
+      ranking = index + 1;
     }
     return null;
   });
@@ -355,6 +353,9 @@ const Tablero = params => {
       </>
     );
   }
+
+  const heightChart = getRegiones.length * 30 + 100;
+
   return (
     <Grid item xs={12} sm={12} md={7} lg={7} xl={7}>
       <Paper className={classes.paperInfo} elevation={3}>
@@ -401,7 +402,7 @@ const Tablero = params => {
                 align="center"
                 className={classes.typoTittleRanking_}
               >
-                {ranking} de {total - 1}
+                {ranking} de {total}
               </Typography>
             </Grid>
           </Grid>
@@ -423,7 +424,11 @@ const Tablero = params => {
               className={classes.typoCasos}
             >
               <NumberFormat
-                value={getPais.casos}
+                value={
+                  getPais.casos_ >= getPais.casos
+                    ? getPais.casos_
+                    : getPais.casos
+                }
                 displayType={"text"}
                 thousandSeparator={true}
               />
@@ -444,7 +449,11 @@ const Tablero = params => {
               className={classes.typoMuertes}
             >
               <NumberFormat
-                value={getPais.muertes}
+                value={
+                  getPais.muertes_ >= getPais.muertes
+                    ? getPais.muertes_
+                    : getPais.muertes
+                }
                 displayType={"text"}
                 thousandSeparator={true}
               />
@@ -465,7 +474,11 @@ const Tablero = params => {
               className={classes.typoRecuperados}
             >
               <NumberFormat
-                value={getPais.recuperados}
+                value={
+                  getPais.recuperados_ >= getPais.recuperados
+                    ? getPais.recuperados_
+                    : getPais.recuperados
+                }
                 displayType={"text"}
                 thousandSeparator={true}
               />
@@ -494,52 +507,56 @@ const Tablero = params => {
           </Grid>
         </Grid>
         <Grid container direction="row" className={classes.containerCasos_}>
-          {isCasosHoy && (
-            <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-              <Typography
-                variant="h5"
-                align="center"
-                className={classes.typoTittleCasos}
-              >
-                Casos de Hoy
-              </Typography>
-              <Typography
-                variant="h4"
-                align="center"
-                className={classes.typoCasosHoy}
-              >
-                +&nbsp;
-                <NumberFormat
-                  value={getPais.casosHoy}
-                  displayType={"text"}
-                  thousandSeparator={true}
-                />
-              </Typography>
-            </Grid>
-          )}
-          {isMuertesHoy && (
-            <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-              <Typography
-                variant="h5"
-                align="center"
-                className={classes.typoTittleCasos}
-              >
-                Muertes de Hoy
-              </Typography>
-              <Typography
-                variant="h4"
-                align="center"
-                className={classes.typoMuertesHoy}
-              >
-                +&nbsp;
-                <NumberFormat
-                  value={getPais.muertesHoy}
-                  displayType={"text"}
-                  thousandSeparator={true}
-                />
-              </Typography>
-            </Grid>
-          )}
+          <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
+            {isCasosHoy && (
+              <>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  className={classes.typoTittleCasos}
+                >
+                  Casos de Hoy
+                </Typography>
+                <Typography
+                  variant="h4"
+                  align="center"
+                  className={classes.typoCasosHoy}
+                >
+                  +&nbsp;
+                  <NumberFormat
+                    value={getPais.casosHoy}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                  />
+                </Typography>
+              </>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
+            {isMuertesHoy && (
+              <>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  className={classes.typoTittleCasos}
+                >
+                  Muertes de Hoy
+                </Typography>
+                <Typography
+                  variant="h4"
+                  align="center"
+                  className={classes.typoMuertesHoy}
+                >
+                  +&nbsp;
+                  <NumberFormat
+                    value={getPais.muertesHoy}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                  />
+                </Typography>
+              </>
+            )}
+          </Grid>
         </Grid>
         <Grid
           container
@@ -749,26 +766,30 @@ const Tablero = params => {
           </Grid>
         </Grid>
         <Grid item xs={12} className={classes.containerChart}>
-          <Chart
-            id="chart"
-            palette="Bright"
-            rotated={true}
-            dataSource={getCiudades}
-            barGroupWidth={26}
-          >
-            <CommonSeriesSettings
-              argumentField="ciudad"
-              valueField="casos"
-              type="bar"
-              ignoreEmptyPoints={true}
+          <Paper elevation={3}>
+            <Chart
+              dataSource={getRegiones}
+              id="chart"
+              palette="Bright"
+              rotated={true}
+              barGroupWidth={28}
+              style={{ height: `${heightChart}px` }}
             >
-              <Label visible={true} backgroundColor="#123039" />
-            </CommonSeriesSettings>
-            <SeriesTemplate nameField="ciudad" />
-            <Legend visible={false} />
-            <Title text="Casos por Departamentos" />
-          </Chart>
+              <CommonSeriesSettings
+                argumentField="region"
+                valueField="casos"
+                type="bar"
+                ignoreEmptyPoints={true}
+              >
+                <Label visible={true} backgroundColor="#123039" />
+              </CommonSeriesSettings>
+              <SeriesTemplate nameField="region" />
+              <Legend visible={false} />
+              <Title text="Casos por Regiones" />
+            </Chart>
+          </Paper>
         </Grid>
+        <Tabla getRegiones={getRegiones} />
       </Paper>
     </Grid>
   );
