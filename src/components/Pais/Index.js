@@ -71,7 +71,7 @@ const Index = () => {
         },
         {
           field: "region",
-          direction: "DESC"
+          direction: "ASC"
         }
       ]
     }

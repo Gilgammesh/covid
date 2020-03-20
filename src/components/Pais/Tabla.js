@@ -36,7 +36,8 @@ const Tabla = params => {
       name: "casos",
       options: {
         filter: true,
-        sort: true
+        sort: true,
+        sortDirection: "desc"
       }
     },
     {
@@ -61,6 +62,9 @@ const Tabla = params => {
     filter: true,
     responsive: "stacked",
     selectableRows: "none",
+    /*pagination: true,*/
+    rowsPerPage: 25,
+    rowsPerPageOptions: [10, 25, 100],
     downloadOptions: {
       filename: "casos_coronavirus_regiones_peru.csv",
       separator: ","
