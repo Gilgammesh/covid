@@ -3,6 +3,7 @@ import { ApolloProvider } from "react-apollo";
 import { ApolloClient, HttpLink, InMemoryCache } from "apollo-boost";
 import { CssBaseline } from "@material-ui/core";
 import "typeface-roboto";
+import Intro from "../Intro/Index";
 import Routes from "../../routes/Index";
 
 // Link del Servidor
@@ -20,6 +21,7 @@ const Index = () => {
   return (
     <ApolloProvider client={client}>
       <CssBaseline />
+      {!sessionStorage.getItem("isIntroCovidDisabled") && <Intro />}
       <Routes />
     </ApolloProvider>
   );

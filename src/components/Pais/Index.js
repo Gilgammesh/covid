@@ -54,7 +54,7 @@ const Index = () => {
       filter: {
         pais: "Peru"
       },
-      sortby1: [
+      sortby: [
         {
           field: "casos",
           direction: "DESC"
@@ -64,7 +64,7 @@ const Index = () => {
           direction: "ASC"
         }
       ],
-      sortby2: [
+      sortby_: [
         {
           field: "casos",
           direction: "ASC"
@@ -101,7 +101,7 @@ const Index = () => {
     );
   }
 
-  const { getPaises, getPais, getRegiones } = data;
+  const { getPaises, getPais, getRegiones, getRegiones_ } = data;
 
   return (
     <div className={classes.root}>
@@ -113,7 +113,7 @@ const Index = () => {
             getPais={getPais}
             getRegiones={getRegiones}
           />
-          <Mapa getPais={getPais} getRegiones={getRegiones} />
+          <Mapa getPais={getPais} getRegiones={getRegiones} getRegiones_={getRegiones_} />
         </Grid>
       </div>
     </div>

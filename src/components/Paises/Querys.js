@@ -20,12 +20,16 @@ export const GET_PAIS = gql`
     getPais(filter: $filter) {
       pais
       casos
+      casos_
       casosHoy
       muertes
+      muertes_
       muertesHoy
       recuperados
+      recuperados_
       casosActivos
       casosCriticos
+      casosDescartados
       bandera
       latitud
       longitud

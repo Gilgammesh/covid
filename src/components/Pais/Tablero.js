@@ -14,11 +14,11 @@ import {
   Label
 } from "devextreme-react/chart";
 import Tabla from "./Tabla";
-import infectados from "../../assets/img/infectados.png";
-import muertes from "../../assets/img/muertes.png";
-import recuperados from "../../assets/img/recuperados.png";
-import descartados from "../../assets/img/descartar.png";
-import noFlag from "../../assets/img/no-flag.png";
+import infectadosImg from "../../assets/img/infectados.png";
+import muertesImg from "../../assets/img/muertes.png";
+import recuperadosImg from "../../assets/img/recuperados.png";
+import descartadosImg from "../../assets/img/descartar.png";
+import noFlagImg from "../../assets/img/no-flag.png";
 
 const useStyles = makeStyles(theme => ({
   containerPais: {
@@ -325,34 +325,43 @@ const Tablero = params => {
         <DesktopLg>
           <img
             style={{ maxWidth: "54px", marginRight: "10px" }}
-            src={noFlag}
+            src={noFlagImg}
             alt=""
           />
         </DesktopLg>
         <Desktop>
           <img
             style={{ maxWidth: "42px", marginRight: "10px" }}
-            src={noFlag}
+            src={noFlagImg}
             alt=""
           />
         </Desktop>
         <Tablet>
           <img
             style={{ maxWidth: "36px", marginRight: "10px" }}
-            src={noFlag}
+            src={noFlagImg}
             alt=""
           />
         </Tablet>
         <Mobile>
           <img
             style={{ maxWidth: "28px", marginRight: "10px" }}
-            src={noFlag}
+            src={noFlagImg}
             alt=""
           />
         </Mobile>
       </>
     );
   }
+
+  const casos =
+    getPais.casos_ >= getPais.casos ? getPais.casos_ : getPais.casos;
+  const muertes =
+    getPais.muertes_ >= getPais.muertes ? getPais.muertes_ : getPais.muertes;
+  const recuperados =
+    getPais.recuperados_ >= getPais.recuperados
+      ? getPais.recuperados_
+      : getPais.recuperados;
 
   const heightChart = getRegiones.length * 30 + 100;
 
@@ -410,7 +419,7 @@ const Tablero = params => {
         <Divider />
         <Grid container direction="row" className={classes.containerCasos}>
           <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
-            <img className={classes.img} src={infectados} alt="casos" />
+            <img className={classes.img} src={infectadosImg} alt="casos" />
             <Typography
               variant="h5"
               align="center"
@@ -424,18 +433,14 @@ const Tablero = params => {
               className={classes.typoCasos}
             >
               <NumberFormat
-                value={
-                  getPais.casos_ >= getPais.casos
-                    ? getPais.casos_
-                    : getPais.casos
-                }
+                value={casos}
                 displayType={"text"}
                 thousandSeparator={true}
               />
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
-            <img className={classes.img} src={muertes} alt="muertes" />
+            <img className={classes.img} src={muertesImg} alt="muertes" />
             <Typography
               variant="h5"
               align="center"
@@ -449,18 +454,18 @@ const Tablero = params => {
               className={classes.typoMuertes}
             >
               <NumberFormat
-                value={
-                  getPais.muertes_ >= getPais.muertes
-                    ? getPais.muertes_
-                    : getPais.muertes
-                }
+                value={muertes}
                 displayType={"text"}
                 thousandSeparator={true}
               />
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
-            <img className={classes.img} src={recuperados} alt="recuperados" />
+            <img
+              className={classes.img}
+              src={recuperadosImg}
+              alt="recuperados"
+            />
             <Typography
               variant="h5"
               align="center"
@@ -474,18 +479,18 @@ const Tablero = params => {
               className={classes.typoRecuperados}
             >
               <NumberFormat
-                value={
-                  getPais.recuperados_ >= getPais.recuperados
-                    ? getPais.recuperados_
-                    : getPais.recuperados
-                }
+                value={recuperados}
                 displayType={"text"}
                 thousandSeparator={true}
               />
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
-            <img className={classes.img} src={descartados} alt="descartados" />
+            <img
+              className={classes.img}
+              src={descartadosImg}
+              alt="descartados"
+            />
             <Typography
               variant="h5"
               align="center"
@@ -680,7 +685,7 @@ const Tablero = params => {
                 className={classes.typoCardNumber}
               >
                 <NumberFormat
-                  value={getPais.muertes + getPais.recuperados}
+                  value={muertes + recuperados}
                   displayType={"text"}
                   thousandSeparator={true}
                 />
@@ -690,7 +695,7 @@ const Tablero = params => {
                 align="center"
                 className={classes.typoCardDescription}
               >
-                Caso{getPais.muertes + getPais.recuperados > 1 && "s"} con un
+                Caso{muertes + recuperados > 1 && "s"} con un
                 resultado
               </Typography>
               <Grid
@@ -706,14 +711,14 @@ const Tablero = params => {
                     className={classes.typoCardNumberRecuperados}
                   >
                     <NumberFormat
-                      value={getPais.recuperados}
+                      value={recuperados}
                       displayType={"text"}
                       thousandSeparator={true}
                     />
                     <NumberFormat
                       value={
-                        (getPais.recuperados * 100) /
-                        (getPais.muertes + getPais.recuperados)
+                        (recuperados * 100) /
+                        (muertes + recuperados)
                       }
                       displayType={"text"}
                       decimalScale={2}
@@ -737,14 +742,14 @@ const Tablero = params => {
                     className={classes.typoCardNumberMuertes}
                   >
                     <NumberFormat
-                      value={getPais.muertes}
+                      value={muertes}
                       displayType={"text"}
                       thousandSeparator={true}
                     />
                     <NumberFormat
                       value={
-                        (getPais.muertes * 100) /
-                        (getPais.muertes + getPais.recuperados)
+                        (muertes * 100) /
+                        (muertes + recuperados)
                       }
                       displayType={"text"}
                       decimalScale={2}

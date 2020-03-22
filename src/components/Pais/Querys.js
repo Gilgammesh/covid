@@ -2,8 +2,12 @@ import { gql } from "apollo-boost";
 
 // Obtener toda la información de Peru
 export const GET_PERU = gql`
-  query($filter: PaisFilter, $sortby1: [SortBy], $sortby2: [SortBy]) {
-    getPaises(sortby: $sortby1) {
+  query(
+    $filter: PaisFilter    
+    $sortby: [SortBy]
+    $sortby_: [SortBy]
+  ) {
+    getPaises(sortby: $sortby) {
       pais
     }
     getPais(filter: $filter) {
@@ -23,7 +27,7 @@ export const GET_PERU = gql`
       latitud
       longitud
     }
-    getRegiones(sortby: $sortby2) {
+    getRegiones( sortby: $sortby_) {
       _id
       region
       casos
@@ -31,6 +35,11 @@ export const GET_PERU = gql`
       recuperados
       latitud
       longitud
+      poligono
+    }
+    getRegiones_( sortby: $sortby_) {
+      _id
+      poligono
     }
   }
 `;

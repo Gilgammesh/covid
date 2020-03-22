@@ -13,10 +13,10 @@ import {
   PieChart,
   Connector
 } from "devextreme-react/pie-chart";
-import infectados from "../../assets/img/infectados.png";
-import muertes from "../../assets/img/muertes.png";
-import recuperados from "../../assets/img/recuperados.png";
-import noFlag from "../../assets/img/no-flag.png";
+import infectadosImg from "../../assets/img/infectados.png";
+import muertesImg from "../../assets/img/muertes.png";
+import recuperadosImg from "../../assets/img/recuperados.png";
+import noFlagImg from "../../assets/img/no-flag.png";
 
 const useStyles = makeStyles(theme => ({
   paperInfo: {
@@ -245,20 +245,6 @@ const Tablero = params => {
     isMuertesHoy = true;
   }
 
-  const dataActives = [
-    { region: "Leves", val: getPais.casosActivos - getPais.casosCriticos },
-    { region: "Criticos", val: getPais.casosCriticos }
-  ];
-
-  const dataClosed = [
-    { region: "Recuperados", val: getPais.recuperados },
-    { region: "Muertes", val: getPais.muertes }
-  ];
-
-  const customizeLabel = point => {
-    return `${point.valueText} (${point.percentText})`;
-  };
-
   let bandera;
   if (getPais.bandera) {
     bandera = (
@@ -315,34 +301,57 @@ const Tablero = params => {
         <DesktopLg>
           <img
             style={{ maxWidth: "54px", marginRight: "10px" }}
-            src={noFlag}
+            src={noFlagImg}
             alt=""
           />
         </DesktopLg>
         <Desktop>
           <img
             style={{ maxWidth: "42px", marginRight: "10px" }}
-            src={noFlag}
+            src={noFlagImg}
             alt=""
           />
         </Desktop>
         <Tablet>
           <img
             style={{ maxWidth: "36px", marginRight: "10px" }}
-            src={noFlag}
+            src={noFlagImg}
             alt=""
           />
         </Tablet>
         <Mobile>
           <img
             style={{ maxWidth: "28px", marginRight: "10px" }}
-            src={noFlag}
+            src={noFlagImg}
             alt=""
           />
         </Mobile>
       </>
     );
   }
+
+  const casos =
+    getPais.casos_ >= getPais.casos ? getPais.casos_ : getPais.casos;
+  const muertes =
+    getPais.muertes_ >= getPais.muertes ? getPais.muertes_ : getPais.muertes;
+  const recuperados =
+    getPais.recuperados_ >= getPais.recuperados
+      ? getPais.recuperados_
+      : getPais.recuperados;
+
+  const dataActives = [
+    { region: "Leves", val: getPais.casosActivos - getPais.casosCriticos },
+    { region: "Criticos", val: getPais.casosCriticos }
+  ];
+
+  const dataClosed = [
+    { region: "Recuperados", val: recuperados },
+    { region: "Muertes", val: muertes }
+  ];
+
+  const customizeLabel = point => {
+    return `${point.valueText} (${point.percentText})`;
+  };
 
   return (
     <Grid item xs={12} sm={12} md={8} lg={6} xl={6}>
@@ -398,14 +407,14 @@ const Tablero = params => {
         <Divider />
         <Grid container direction="row" className={classes.containerCasos}>
           <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-            <img className={classes.img} src={infectados} alt="casos" />
+            <img className={classes.img} src={infectadosImg} alt="casos" />
             <Typography
               variant="h5"
               align="center"
               className={classes.typoTittleCasos}
             >
-              Caso{getPais.muertes + getPais.recuperados > 1 && "s"} Confirmado
-              {getPais.muertes + getPais.recuperados > 1 && "s"}
+              Caso{muertes + recuperados > 1 && "s"} Confirmado
+              {muertes + recuperados > 1 && "s"}
             </Typography>
             <Typography
               variant="h4"
@@ -413,14 +422,14 @@ const Tablero = params => {
               className={classes.typoCasos}
             >
               <NumberFormat
-                value={getPais.casos}
+                value={casos}
                 displayType={"text"}
                 thousandSeparator={true}
               />
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-            <img className={classes.img} src={muertes} alt="muertes" />
+            <img className={classes.img} src={muertesImg} alt="muertes" />
             <Typography
               variant="h5"
               align="center"
@@ -434,14 +443,18 @@ const Tablero = params => {
               className={classes.typoMuertes}
             >
               <NumberFormat
-                value={getPais.muertes}
+                value={muertes}
                 displayType={"text"}
                 thousandSeparator={true}
               />
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-            <img className={classes.img} src={recuperados} alt="recuperados" />
+            <img
+              className={classes.img}
+              src={recuperadosImg}
+              alt="recuperados"
+            />
             <Typography
               variant="h5"
               align="center"
@@ -455,7 +468,7 @@ const Tablero = params => {
               className={classes.typoRecuperados}
             >
               <NumberFormat
-                value={getPais.recuperados}
+                value={recuperados}
                 displayType={"text"}
                 thousandSeparator={true}
               />
@@ -597,7 +610,7 @@ const Tablero = params => {
                 className={classes.typoCardNumber}
               >
                 <NumberFormat
-                  value={getPais.muertes + getPais.recuperados}
+                  value={muertes + recuperados}
                   displayType={"text"}
                   thousandSeparator={true}
                 />

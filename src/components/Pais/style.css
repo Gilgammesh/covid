@@ -15,7 +15,16 @@
   font-size: 12px !important;
 }
 
+.MuiTableCell-root {
+  padding: 8px 16px !important;
+}
+
 .leaflet-popup-content-wrapper {
   background: linear-gradient(180deg, #0F202C 30%, #247573 100%);
   background: linear-gradient(0deg, #0F202C 30%, #247573 100%);
+}
+
+.leaflet-tile-pane {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
 }

@@ -2,7 +2,7 @@ import React from "react";
 import NumberFormat from "react-number-format";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper, Typography } from "@material-ui/core";
-import { Map, Marker, Popup, TileLayer } from "react-leaflet";
+import { Map, Marker, Popup, TileLayer, Polygon } from "react-leaflet";
 import { Icon } from "leaflet";
 import marker from "../../assets/img/marker.png";
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Mapa = params => {
-  const { getPais, getRegiones } = params;
+  const { getPais, getRegiones, getRegiones_ } = params;
 
   const classes = useStyles();
 
@@ -59,6 +59,35 @@ const Mapa = params => {
     iconSize: [30, 30]
   });
 
+  const polygons = getRegiones.map(ele => {
+    if (ele.latitud && ele.longitud) {
+      return (
+        <Polygon
+          key={ele._id}
+          color="#000"
+          weight="0.5"
+          fillColor="#194F52"          
+          opacity="0.8"
+          positions={ele.poligono}
+        />
+      );
+    }
+    return null;
+  });
+
+  const polygons_ = getRegiones_.map(ele => {
+    return (
+      <Polygon
+        key={ele._id}
+        color="#000"
+        weight="0.5"
+        fillColor="whitesmoke"
+        opacity="0.8"
+        positions={ele.poligono}
+      />
+    );
+  });
+
   const markers = getRegiones.map(ele => {
     if (ele.latitud && ele.longitud) {
       let descC, descM, descR;
@@ -72,7 +101,7 @@ const Mapa = params => {
       } else {
         descM = "muertes";
       }
-      if (ele.recuperados <= 1) {
+      if (ele.recuperados === 1) {
         descR = "recuperado";
       } else {
         descR = "recuperados";
@@ -91,7 +120,11 @@ const Mapa = params => {
             </div>
             <div style={{ borderTop: "1px solid white" }}>
               <label
-                style={{ color: "#2ea09c", fontWeight: "600", fontSize: "20px" }}
+                style={{
+                  color: "#2ea09c",
+                  fontWeight: "600",
+                  fontSize: "20px"
+                }}
               >
                 <NumberFormat
                   value={ele.casos}
@@ -148,6 +181,8 @@ const Mapa = params => {
         <div className={classes.container}>
           <Map className={classes.map} center={position} zoom={zoom}>
             <TileLayer url={url} attribution={attribution} />
+            {polygons}
+            {polygons_}
             {markers}
           </Map>
         </div>
