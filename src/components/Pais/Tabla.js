@@ -20,6 +20,12 @@ const useStyles = makeStyles(theme => ({
 const Tabla = params => {
   const { getRegiones } = params;
 
+  const getRegiones_ = getRegiones.map( (ele, i) => {
+    ele.letalidad = ((ele.muertes / ele.casos) * 100).toFixed(2) + " %";
+    return ele;
+  });
+  
+
   const classes = useStyles();
 
   const columns = [
@@ -51,6 +57,14 @@ const Tabla = params => {
     {
       label: "Total Recuperados",
       name: "recuperados",
+      options: {
+        filter: true,
+        sort: true
+      }
+    },
+    {
+      label: "Indice de Letalidad (%)",
+      name: "letalidad",
       options: {
         filter: true,
         sort: true
@@ -95,7 +109,7 @@ const Tabla = params => {
       <Paper elevation={1}>
         <MUIDataTable
           title="Casos en la Regiones del Perú"
-          data={getRegiones}
+          data={getRegiones_}
           columns={columns}
           options={options}
         />

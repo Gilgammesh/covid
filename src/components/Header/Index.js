@@ -116,11 +116,13 @@ const Index = () => {
           </Typography>
         </Mobile>
         <Hidden smDown>
+        <a href="https://www.facebook.com/santandertech/" target="blank">
           <img
             className={classes.imgEmpresa}
             src={empresa}
             alt="santandertech"
           />
+          </a>
         </Hidden>
       </Toolbar>
       <Toolbar

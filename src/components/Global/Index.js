@@ -6,7 +6,7 @@ import { useQuery } from "react-apollo";
 import { GET_PAISES } from "./Querys";
 import { Lottie } from "@crello/react-lottie";
 import animationData from "../../assets/animations/covid.json";
-import './style.css'
+import "./style.css";
 import Header from "../Header/Index";
 import Tablero from "./Tablero";
 import Tabla from "./Tabla";
@@ -88,14 +88,14 @@ const Index = () => {
     );
   }
 
-  const { getPaises } = data;
+  const { getGlobal, getPaises } = data;
 
   return (
     <div className={classes.root}>
       <Header />
       <div className={classes.container}>
         <Grid container className={classes.grid} spacing={2}>
-          <Tablero getPaises={getPaises} />
+          <Tablero getGlobal={getGlobal} getPaises={getPaises} />
           <Tabla getPaises={getPaises} />
         </Grid>
       </div>

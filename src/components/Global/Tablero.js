@@ -136,26 +136,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Tablero = params => {
-  const { getPaises } = params;
+  const { getGlobal, getPaises } = params;
 
   const classes = useStyles();
 
-  let casosT = 0;
-  let muertesT = 0;
-  let recuperadosT = 0;
+  const casosT = getGlobal.casos;
+  const muertesT = getGlobal.muertes;
+  const recuperadosT = getGlobal.recuperados;
   let activosT = 0;
   let criticosT = 0;
 
   getPaises.map(ele => {
-    if (ele.casos) {
-      casosT += ele.casos;
-    }
-    if (ele.muertes) {
-      muertesT += ele.muertes;
-    }
-    if (ele.recuperados) {
-      recuperadosT += ele.recuperados;
-    }
     if (ele.casosActivos) {
       activosT += ele.casosActivos;
     }
