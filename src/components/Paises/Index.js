@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import { teal } from "@material-ui/core/colors";
@@ -48,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 const Index = () => {
   const [state, setState] = useState({
+    _id: "",
     pais: "China"
   });
 
@@ -67,6 +68,21 @@ const Index = () => {
       ]
     }
   });
+
+  useEffect(() => {
+    if (data) {
+      data.getPaises.filter((ele, index) => {
+        if (index === 0) {
+          setState({
+            _id: ele._id,
+            pais: ele.pais
+          });
+          return;
+        }
+        return;
+      });
+    }
+  }, [data, setState]);
 
   const animationOptions = {
     loop: true,

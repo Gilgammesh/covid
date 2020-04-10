@@ -121,7 +121,7 @@ const Listado = params => {
   const secondaryTypo = {
     color: "#2ea09c",
     fontWeight: "500"
-  };
+  };  
 
   const paisActive = pais => {
     if (state.pais === pais) {
@@ -187,7 +187,7 @@ const Listado = params => {
         <Divider />
       </div>
     );
-  });
+  });  
 
   const inputSearchChange = async evt => {
     const { value } = evt.target;

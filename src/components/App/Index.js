@@ -6,9 +6,15 @@ import "typeface-roboto";
 import Intro from "../Intro/Index";
 import Routes from "../../routes/Index";
 
+// Token de autorización
+const token = process.env.REACT_APP_TOKEN_COVID;
+
 // Link del Servidor
 const httpLink = {
-  uri: process.env.REACT_APP_API_COVID || "http://localhost:4000/graphql"
+  uri: process.env.REACT_APP_API_COVID || "http://localhost:4000/graphql",
+  headers: {
+    authorization: `Bearer ${token}`
+  }
 };
 
 // Cliente de Apollo
