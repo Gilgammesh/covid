@@ -11,7 +11,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "apollo-boost": "^0.4.7",
-    "devextreme": "^19.2.6",
+    "devextreme": "^19.2.15",
     "devextreme-react": "^19.2.6",
     "graphql": "^14.6.0",
     "leaflet": "^1.6.0",
@@ -24,7 +24,7 @@
     "react-number-format": "^4.4.1",
     "react-responsive": "^8.0.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0",
+    "react-scripts": "5.0.1",
     "rimraf": "^3.0.2",
     "styled-components": "^5.0.1",
     "typeface-roboto": "0.0.75"
